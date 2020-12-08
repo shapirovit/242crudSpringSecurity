@@ -41,7 +41,6 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public void deleteUser(User user) {
-        entityManager.merge(user);
         entityManager.remove(user);
     }
 }
