@@ -17,15 +17,23 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public List<User> listUsers() {
-        Query query = entityManager.createQuery("from User");
+        Query query = entityManager.createQuery("select distinct u from User u join fetch u.roles");
         return query.getResultList();
     }
 
     @Override
     public User getUserById(Long id) {
         return entityManager
-                .createQuery("from User u where u.id = :id", User.class)
+                .createQuery("from User u join fetch u.roles where u.id = :id", User.class)
                 .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+        return entityManager
+                .createQuery("from User u join fetch u.roles where u.login = :login", User.class)
+                .setParameter("login", login)
                 .getSingleResult();
     }
 

@@ -1,12 +1,15 @@
 package crud.springmvc.controller;
 
+import crud.springmvc.model.Role;
 import crud.springmvc.model.User;
 import crud.springmvc.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/users")
@@ -44,7 +47,9 @@ public class UsersController {
 
     @GetMapping("/{id}/edit")
     public String showFormUpdateUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getUserById(id));
+        User user = userService.getUserById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("allRoles", user.getRoles());
         return "edit";
     }
 
